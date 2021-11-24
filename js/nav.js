@@ -34,3 +34,11 @@ function updateNavOnLogin() {
   $navLogOut.show();
   $navUserProfile.text(`${currentUser.username}`).show();
 }
+
+/** when the user click on new story nav link will display new story form */
+
+newStoryBtn.addEventListener("click", function() {
+  console.log("new story btn clicked");
+  hidePageComponents();
+  $newStoryForm.show();
+})
