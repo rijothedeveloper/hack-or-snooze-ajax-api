@@ -37,3 +37,13 @@
 .story-user {
   display: block;
 }
+
+.grey-star {
+  padding-right: 2px;
+  padding-left: 2px;
+  font-size: 125%;
+}
+
+.favourite-star {
+  color: blue;
+}

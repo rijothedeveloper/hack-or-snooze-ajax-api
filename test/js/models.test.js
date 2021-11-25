@@ -31,3 +31,24 @@ afterEach(async function() {
 })
 
 });
+
+describe("add favourite story to the database", function() {
+    
+const storyId = "10f28f72-db8d-4fae-bab4-6ca12ccfb7d5";
+it("add favourite story and return updated user object", async function() {
+    const storyList = new StoryList();
+    newUser = await storyList.addFavourite(user, storyId);
+    expect(newUser).toBeInstanceOf(User);
+})
+
+afterEach(async function() {
+    const url = `https://hack-or-snooze-v3.herokuapp.com/users/${user.username}/favorites/${storyId}`
+    const res = await axios({
+        url: url,
+        method: "DELETE",
+        data: {token: user.loginToken}
+    });
+    console.log(res);
+})
+
+});

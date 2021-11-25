@@ -25,6 +25,7 @@ function generateStoryMarkup(story) {
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
+      <small class="grey-star" id="favourite">&bigstar;</small>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -45,10 +46,21 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+    if(currentUser && isFavourite(currentUser.favorites, story)) {
+      $story.children()[0].classList.add("favourite-star");
+    }
     $allStoriesList.append($story);
   }
 
   $allStoriesList.show();
+}
+
+function isFavourite(favourites, story) {
+  if(favourites.length < 1) return false;
+  for(let favourite of favourites) {
+    if(favourite.storyId === story.storyId) return true
+  }
+  return false;
 }
 
 $newStoryForm.on("submit", function() {

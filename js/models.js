@@ -82,6 +82,23 @@ class StoryList {
     return new Story(res.data.story);
   }
 
+  /** Adds favourite story to API .
+   * - user - the current instance of User who will post the story
+   * - story id
+   *
+   * Returns the new User instance
+   */
+
+  async addFavourite(user, storyId) {
+    const end_url = `/users/${user.username}/favorites/${storyId}`
+    const res = await axios({
+      url: BASE_URL+end_url,
+      method: "POST",
+      data: {token: user.loginToken}
+    })
+    return new User(res.data.user);
+  }
+
 }
 
 

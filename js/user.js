@@ -109,8 +109,20 @@ function saveUserCredentialsInLocalStorage() {
 
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
-
+  hidePageComponents();
   $allStoriesList.show();
-
+  if(currentUser.favorites.length > 0) putStoriesOnPage();
   updateNavOnLogin();
 }
+
+// star button click handle
+$allStoriesList[0].addEventListener("click", async function(evt) {
+  console.log("star button raw list clicked");
+  if(evt.target.id === 'favourite') {
+    const user = await storyList.addFavourite(currentUser, evt.target.parentElement.id)
+    if(user.favorites.length > 0) {
+      currentUser.favorites = user.favorites;
+      putStoriesOnPage();
+    }
+  }
+});
