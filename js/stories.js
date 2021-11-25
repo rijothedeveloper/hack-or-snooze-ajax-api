@@ -31,6 +31,7 @@ function generateStoryMarkup(story) {
         </a>
         <small class="story-hostname">(${hostName})</small>
         <small class="story-author">by ${story.author}</small>
+        <button class="hidden">Delete</button>
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
@@ -49,6 +50,9 @@ function putStoriesOnPage() {
     if(currentUser && isFavourite(currentUser.favorites, story)) {
       $story.children()[0].classList.add("favourite-star");
     }
+    if(currentUser && isOwnStory(currentUser.ownStories, story) ) {
+      $story.children()[4].classList.remove("hidden");
+    }
     $allStoriesList.append($story);
   }
 
@@ -59,6 +63,14 @@ function isFavourite(favourites, story) {
   if(favourites.length < 1) return false;
   for(let favourite of favourites) {
     if(favourite.storyId === story.storyId) return true
+  }
+  return false;
+}
+
+function isOwnStory(myStories, story) {
+  if(myStories.length < 1) return false;
+  for(let myStory of myStories) {
+    if(myStory.storyId === story.storyId) return true;
   }
   return false;
 }

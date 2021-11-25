@@ -109,6 +109,17 @@ class StoryList {
     return new User(res.data.user);
   }
 
+  /** remove a story from api */
+  async removeStory(user, storyId) {
+    const end_url = `/stories/${storyId}`;
+    const res = await axios({
+      url: BASE_URL+end_url,
+      method: 'DELETE',
+      data: {token: user.loginToken}
+    });
+    return new Story(res.data.story);
+  }
+
 }
 
 

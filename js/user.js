@@ -118,8 +118,14 @@ function updateUIOnUserLogin() {
 // star button click handle
 $allStoriesList[0].addEventListener("click", async function(evt) {
   console.log("star button raw list clicked");
-  if(evt.target.id === 'favourite') {
-    onFavouriteBtnClicked(evt.target);
+  if(!currentUser) return;
+  switch(evt.target.id) {
+    case 'favourite':
+      onFavouriteBtnClicked(evt.target);
+      break;
+    case 'remove-btn':
+      removeStoryBtnClicked(evt.target);
+      break;
   }
 });
 
@@ -135,4 +141,11 @@ async function onFavouriteBtnClicked(favouriteBtn) {
     currentUser.favorites = user.favorites;
   }
     putStoriesOnPage();
+}
+
+async function removeStoryBtnClicked(removeBtn) {
+  const story = await storyList.removeStory(currentUser, removeBtn.parentElement.id);
+  if(story){
+    putStoriesOnPage();
+  }
 }
