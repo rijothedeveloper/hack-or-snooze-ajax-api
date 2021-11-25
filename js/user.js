@@ -145,7 +145,9 @@ async function onFavouriteBtnClicked(favouriteBtn) {
 
 async function removeStoryBtnClicked(removeBtn) {
   const story = await storyList.removeStory(currentUser, removeBtn.parentElement.id);
-  if(story){
+  if(story instanceof Story){
+    storyList.stories = storyList.stories.filter(ele => ele.storyId !== story.storyId);
+    //storyList = storyListTemp;
     putStoriesOnPage();
   }
 }
