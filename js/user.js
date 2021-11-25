@@ -111,7 +111,7 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
   hidePageComponents();
   $allStoriesList.show();
-  if(currentUser.favorites.length > 0) putStoriesOnPage();
+  if(currentUser.favorites.length > 0 || currentUser.ownStories.length > 0) putStoriesOnPage();
   updateNavOnLogin();
 }
 

@@ -87,6 +87,7 @@ async function createNewStory(title, author, url) {
   if(!storyList) return;
   const story = await storyList.addStory(currentUser, {title, author, url});
   storyList.stories.push(story);
+  currentUser.ownStories.push(story);
   updateUIOnNewStory();
 }
 
