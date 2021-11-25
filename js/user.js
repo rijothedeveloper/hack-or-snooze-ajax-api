@@ -119,10 +119,20 @@ function updateUIOnUserLogin() {
 $allStoriesList[0].addEventListener("click", async function(evt) {
   console.log("star button raw list clicked");
   if(evt.target.id === 'favourite') {
-    const user = await storyList.addFavourite(currentUser, evt.target.parentElement.id)
-    if(user.favorites.length > 0) {
-      currentUser.favorites = user.favorites;
-      putStoriesOnPage();
-    }
+    onFavouriteBtnClicked(evt.target);
   }
 });
+
+/** favourite button is clicked */
+async function onFavouriteBtnClicked(favouriteBtn) {
+  if (favouriteBtn.classList.contains("favourite-star")) {
+    // remove favourite
+    const user = await storyList.removeFavourite(currentUser, favouriteBtn.parentElement.id)
+    currentUser.favorites = user.favorites;
+  } else {
+    // add favourite
+    const user = await storyList.addFavourite(currentUser, favouriteBtn.parentElement.id)
+    currentUser.favorites = user.favorites;
+  }
+    putStoriesOnPage();
+}

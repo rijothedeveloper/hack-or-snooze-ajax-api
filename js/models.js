@@ -90,10 +90,20 @@ class StoryList {
    */
 
   async addFavourite(user, storyId) {
-    const end_url = `/users/${user.username}/favorites/${storyId}`
+    const end_url = `/users/${user.username}/favorites/${storyId}`;
     const res = await axios({
       url: BASE_URL+end_url,
       method: "POST",
+      data: {token: user.loginToken}
+    })
+    return new User(res.data.user);
+  }
+
+  async removeFavourite(user, storyId) {
+    const end_url = `/users/${user.username}/favorites/${storyId}`;
+    const res = await axios({
+      url: BASE_URL+end_url,
+      method: "DELETE",
       data: {token: user.loginToken}
     })
     return new User(res.data.user);
