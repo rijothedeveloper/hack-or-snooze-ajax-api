@@ -131,16 +131,19 @@ $allStoriesList[0].addEventListener("click", async function(evt) {
 
 /** favourite button is clicked */
 async function onFavouriteBtnClicked(favouriteBtn) {
+  let newUser = null;
   if (favouriteBtn.classList.contains("favourite-star")) {
     // remove favourite
-    const user = await storyList.removeFavourite(currentUser, favouriteBtn.parentElement.id)
-    currentUser.favorites = user.favorites;
+    newUser = await storyList.removeFavourite(currentUser, favouriteBtn.parentElement.id)
   } else {
     // add favourite
-    const user = await storyList.addFavourite(currentUser, favouriteBtn.parentElement.id)
-    currentUser.favorites = user.favorites;
+    newUser = await storyList.addFavourite(currentUser, favouriteBtn.parentElement.id)
   }
+  if(newUser){
+    currentUser.favorites = newUser.favorites;
     putStoriesOnPage();
+  }
+    
 }
 
 async function removeStoryBtnClicked(removeBtn) {

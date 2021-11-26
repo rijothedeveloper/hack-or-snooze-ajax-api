@@ -74,12 +74,18 @@ class StoryList {
    */
 
   async addStory( user, newStory ) {
-    const res = await axios({
-      url: `${BASE_URL}/stories`,
-      method: "POST",
-      data: {token: user.loginToken, story: newStory}
-    });
-    return new Story(res.data.story);
+    let story=null;
+    try {
+      const res = await axios({
+        url: `${BASE_URL}/stories`,
+        method: "POST",
+        data: {token: user.loginToken, story: newStory}
+      });
+      story = new Story(res.data.story);
+    } catch (error){
+      console.log("error in addStory");
+    }
+    return story;
   }
 
   /** Adds favourite story to API .
@@ -91,33 +97,51 @@ class StoryList {
 
   async addFavourite(user, storyId) {
     const end_url = `/users/${user.username}/favorites/${storyId}`;
-    const res = await axios({
-      url: BASE_URL+end_url,
-      method: "POST",
-      data: {token: user.loginToken}
-    })
-    return new User(res.data.user);
+    let newUser = null;
+    try {
+      const res = await axios({
+        url: BASE_URL+end_url,
+        method: "POST",
+        data: {token: user.loginToken}
+      })
+      newUser = new User(res.data.user);
+    } catch(error) {
+      console.log("error in addFavourite");
+    }
+    return newUser;
   }
 
   async removeFavourite(user, storyId) {
+    let newUser = null;
     const end_url = `/users/${user.username}/favorites/${storyId}`;
-    const res = await axios({
-      url: BASE_URL+end_url,
-      method: "DELETE",
-      data: {token: user.loginToken}
-    })
-    return new User(res.data.user);
+    try {
+      const res = await axios({
+        url: BASE_URL+end_url,
+        method: "DELETE",
+        data: {token: user.loginToken}
+      })
+      newUser = new User(res.data.user);
+    } catch (error) {
+      console.log("error in removeFavourite");
+    }
+    return newUser;
   }
 
   /** remove a story from api */
   async removeStory(user, storyId) {
+    let story = null;
     const end_url = `/stories/${storyId}`;
-    const res = await axios({
-      url: BASE_URL+end_url,
-      method: 'DELETE',
-      data: {token: user.loginToken}
-    });
-    return new Story(res.data.story);
+    try {
+      const res = await axios({
+        url: BASE_URL+end_url,
+        method: 'DELETE',
+        data: {token: user.loginToken}
+      });
+      story = new Story(res.data.story);
+    } catch (error) {
+      console.log("error in removeStory");
+    }
+    return story;
   }
 
 }
