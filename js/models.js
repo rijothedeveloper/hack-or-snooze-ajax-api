@@ -144,6 +144,28 @@ class StoryList {
     return story;
   }
 
+  /** update a story * - user - the current instance of User who will post the story
+   * - obj of story
+   *
+   * Returns the new Story instance
+   */
+
+  async updateStory(user, storyId, editedStory) {
+    let newStory = null;
+    const end_url = `/stories/${storyId}`
+    try {
+      const res = await axios({
+        url: BASE_URL+end_url,
+        method: 'PATCH',
+        data: {token: user.loginToken, story: editedStory}
+      })
+      newStory = new Story(res.data.story);
+    } catch(error) {
+      console.log("error in updating story with story id "+story.storyId);
+    }
+    return newStory;
+  }
+
 }
 
 

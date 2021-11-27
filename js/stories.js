@@ -32,6 +32,7 @@ function generateStoryMarkup(story) {
         <small class="story-hostname">(${hostName})</small>
         <small class="story-author">by ${story.author}</small>
         <button class="hidden" id="remove-btn">Delete</button>
+        <button class="hidden" id="editStory-btn">Edit</button>
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
@@ -52,6 +53,7 @@ function putStoriesOnPage() {
     }
     if(currentUser && isOwnStory(currentUser.ownStories, story) ) {
       $story.children()[4].classList.remove("hidden");
+      $story.children()[5].classList.remove("hidden");
     }
     $allStoriesList.append($story);
   }

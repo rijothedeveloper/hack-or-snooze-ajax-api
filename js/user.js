@@ -115,7 +115,7 @@ function updateUIOnUserLogin() {
   updateNavOnLogin();
 }
 
-// star button click handle
+// story buttons click handle
 $allStoriesList[0].addEventListener("click", async function(evt) {
   console.log("star button raw list clicked");
   if(!currentUser) return;
@@ -126,6 +126,8 @@ $allStoriesList[0].addEventListener("click", async function(evt) {
     case 'remove-btn':
       removeStoryBtnClicked(evt.target);
       break;
+    case 'editStory-btn':
+      showEditStoryUI(evt.target);
   }
 });
 
@@ -154,3 +156,35 @@ async function removeStoryBtnClicked(removeBtn) {
     putStoriesOnPage();
   }
 }
+
+function showEditStoryUI(editBtn) {
+  $editStoryForm[0].dataset.storyId = editBtn.parentElement.id;
+  hidePageComponents();
+  $editStoryForm.show();
+}
+
+async function editStoryButtonClicked(storyId, title, author, url) {
+  const storyIndex = getStoryIndex(storyId);
+  if(!storyIndex) return;
+  const newStory = await storyList.updateStory(currentUser, storyId, {title, author, url});
+  if(newStory) {
+    storyList.stories[storyIndex] = newStory;
+    putStoriesOnPage();
+  }
+}
+
+function getStoryIndex(storyId) {
+  for(let i=0; i<storyList.stories.length; i++) {
+    if(storyList.stories[i].storyId === storyId) {
+      return i;
+    }
+  }
+  return null;
+}
+
+$editStoryForm.on("submit", function(evt) {
+  const title = $("#edit-title").val();
+  const author = $("#edit-author").val();
+  const url = $("#edit-url").val();
+  editStoryButtonClicked(evt.target.dataset.storyId, title, author, url);
+})
